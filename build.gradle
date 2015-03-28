@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'war'
+
+//по умолчанию /src/main/webapp
+webAppDirName = 'web'
+
+ext {
+    deployDir = "$projectDir/jetty/webapps/"
+    applicationRoot = "app"
+}
+
+//По умолчанию предполагается src/main/java, src/main/test, src/main/resource
+sourceSets {
+    main {
+        java {
+            srcDir '/src/'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('javax.servlet:servlet-api:2.5');
+}
+
+task deploy(dependsOn: war) {
+    copy {
+        from war.archivePath
+        into deployDir
+        rename { 'app.war' }
+    }
+}
+
+
+
