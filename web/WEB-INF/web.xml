@@ -2,10 +2,25 @@
     <servlet>
         <servlet-name>helloWorldServlet</servlet-name>
         <servlet-class>com.mypongserver.servlet.HelloWordServlet</servlet-class>
+        <init-param>
+            <param-name>useHttpSession</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>helloWorldServlet</servlet-name>
+    <servlet-name>helloWorldServlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/static/*</url-pattern>
+    </servlet-mapping>
+
 </web-app>

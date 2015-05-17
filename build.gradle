@@ -6,7 +6,8 @@ apply plugin: 'war'
 webAppDirName = 'web'
 
 ext {
-    deployDir = "$projectDir/jetty/webapps/"
+    jettyDir = "$projectDir/jetty"
+    deployDir = "$jettyDir/webapps/"
     applicationRoot = "app"
 }
 
@@ -25,15 +26,30 @@ repositories {
 
 dependencies {
     compile('javax.servlet:servlet-api:2.5');
+    compile('org.eclipse.jetty:jetty-servlet:9.2.10.v20150310');
 }
 
-task deploy(dependsOn: war) {
+task deploy(dependsOn: [clean, war]) {
     copy {
         from war.archivePath
         into deployDir
         rename { 'app.war' }
     }
 }
+
+task start(type: Exec) {
+    workingDir jettyDir
+    commandLine 'cmd', '/c', 'start.bat'
+}
+
+task stop(type: Exec) {
+    workingDir jettyDir
+    commandLine 'cmd', '/c', 'stop.bat'
+}
+
+task restart(dependsOn: [stop, deploy, start])
+
+
 
 
 
